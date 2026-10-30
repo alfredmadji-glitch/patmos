@@ -1,0 +1,58 @@
+name: Compiler Patmos
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  windows:
+    name: Patmos pour Windows
+    runs-on: windows-2025-vs2026
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - name: Récupérer les fichiers Patmos
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          path: patmos-files
+
+      - name: Récupérer le code source d'OBS Studio
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          repository: obsproject/obs-studio
+          ref: 65c320b46e1af5c7a555161aea6182cdf7a8c524
+          path: obs-studio
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Appliquer les changements Patmos
+        working-directory: obs-studio
+        run: |
+          git config user.name "Patmos"
+          git config user.email "patmos@example.com"
+          git am --3way ../patmos-files/patmos-renommage.patch
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+
+      - name: Compiler Patmos
+        uses: ./obs-studio/.github/actions/build-obs
+        with:
+          target: x64
+          config: Release
+          workingDirectory: ${{ github.workspace }}/obs-studio
+
+      - name: Fabriquer le paquet
+        uses: ./obs-studio/.github/actions/package-obs
+        with:
+          target: x64
+          config: Release
+          package: true
+          workingDirectory: ${{ github.workspace }}/obs-studio
+
+      - name: Mettre le résultat à disposition
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: Patmos-Windows
+          path: obs-studio/build_x64/obs-studio-*-windows-x64.zip
+          if-no-files-found: error
