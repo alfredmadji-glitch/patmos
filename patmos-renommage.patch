@@ -1,0 +1,682 @@
+From a9b19d3d70c8fdb48c9ad8607a609df8bd184fd2 Mon Sep 17 00:00:00 2001
+From: Patmos <patmos@example.com>
+Date: Sat, 31 Oct 2026 00:12:19 +0100
+Subject: [PATCH] Patmos: renommage et theme rouge et blanc
+
+---
+ frontend/data/locale/en-US.ini  |  28 +-
+ frontend/data/locale/fr-FR.ini  |  22 +-
+ frontend/data/themes/Patmos.ovt | 448 ++++++++++++++++++++++++++++++++
+ frontend/widgets/OBSBasic.cpp   |   4 +-
+ 4 files changed, 475 insertions(+), 27 deletions(-)
+ create mode 100644 frontend/data/themes/Patmos.ovt
+
+diff --git a/frontend/data/locale/en-US.ini b/frontend/data/locale/en-US.ini
+index 3046ec3..060243e 100644
+--- a/frontend/data/locale/en-US.ini
++++ b/frontend/data/locale/en-US.ini
+@@ -132,8 +132,8 @@ AlreadyRunning.Text="OBS is already running! Unless you meant to do this, please
+ AlreadyRunning.LaunchAnyway="Launch Anyway"
+ 
+ # Prior Crash Detection
+-CrashHandling.Dialog.Title="OBS Studio Crash Detected"
+-CrashHandling.Labels.Text="OBS Studio did not properly shut down.\n\nRun in Safe Mode (third-party plugins, scripting, and WebSockets disabled)?"
++CrashHandling.Dialog.Title="Patmos Crash Detected"
++CrashHandling.Labels.Text="Patmos did not properly shut down.\n\nRun in Safe Mode (third-party plugins, scripting, and WebSockets disabled)?"
+ CrashHandling.Labels.PrivacyNotice="You can also choose to automatically upload the most recent crash report to the OBSProject.<br /><br />Please read the <a href='https://obsproject.com/privacy-policy'>Privacy Policy</a> before uploading any files and pay special attention to the parts regarding file uploads."
+ CrashHandling.Checkbox.SendReport="I have read the privacy policy and consent to the upload."
+ CrashHandling.Buttons.LaunchSafe="Run in Safe Mode"
+@@ -143,7 +143,7 @@ CrashHandling.Errors.Title="Crash Log Upload Error"
+ 
+ # Plugin Manager Load Failure
+ PluginFailure.Dialog.Title="Plugin Errors"
+-PluginFailure.Labels.Text="OBS Studio was not able to load all third-party plugins.\n\nMore details are available in the plugin manager."
++PluginFailure.Labels.Text="Patmos was not able to load all third-party plugins.\n\nMore details are available in the plugin manager."
+ PluginFailure.Dialog.Continue="Dismiss"
+ PluginFailure.Dialog.Open="Open Plugin Manager"
+ 
+@@ -470,7 +470,7 @@ Output.BroadcastStartFailed="Failed to start broadcast"
+ Output.BroadcastStopFailed="Failed to stop broadcast"
+ 
+ # Log Upload Dialog for Application and Crash Logs
+-LogUploadDialog.Title="OBS Studio Log File Upload"
++LogUploadDialog.Title="Patmos Log File Upload"
+ LogUploadDialog.Labels.PrivacyNotice="Please read the <a href='https://obsproject.com/privacy-policy'>Privacy Policy</a> and its section regarding file uploads before uploading any files."
+ LogUploadDialog.Labels.Progress="Log upload in progress. Please wait..."
+ LogUploadDialog.Labels.Description.AppLog="Your log file has been uploaded. You can now share the URL for debugging or support purposes."
+@@ -526,8 +526,8 @@ MissingFiles.NoMissing.Text="No files appear to be missing."
+ # macOS permissions dialog
+ MacPermissions.MenuAction="Review App Permissions..."
+ MacPermissions.Title="Review App Permissions"
+-MacPermissions.Description="OBS Studio requires your permission to be able to provide certain features. It is recommended to enable these permissions, but they are not required to use the app. You can always enable them later."
+-MacPermissions.Description.OpenDialog="You can re-open this dialog via the OBS Studio menu."
++MacPermissions.Description="Patmos requires your permission to be able to provide certain features. It is recommended to enable these permissions, but they are not required to use the app. You can always enable them later."
++MacPermissions.Description.OpenDialog="You can re-open this dialog via the Patmos menu."
+ MacPermissions.AccessGranted="Access Granted"
+ MacPermissions.RequestAccess="Request Access"
+ MacPermissions.OpenPreferences="Open %1 Preferences"
+@@ -545,7 +545,7 @@ MacPermissions.Continue="Continue"
+ 
+ # Source leak error message
+ SourceLeak.Title="Source Cleanup Error"
+-SourceLeak.Text="There was a problem while changing scene collections and some sources could not be unloaded. This issue is typically caused by plugins that are not releasing resources properly. Please ensure that any plugins you are using are up to date.\n\nOBS Studio will now exit to prevent any potential data corruption."
++SourceLeak.Text="There was a problem while changing scene collections and some sources could not be unloaded. This issue is typically caused by plugins that are not releasing resources properly. Please ensure that any plugins you are using are up to date.\n\nPatmos will now exit to prevent any potential data corruption."
+ 
+ # audio device names
+ Basic.DesktopDevice1="Desktop Audio"
+@@ -932,8 +932,8 @@ Basic.Settings.General.UpdateChannelDefault="(Default)"
+ Basic.Settings.General.EnableAutoUpdates="Automatically check for updates on startup"
+ Basic.Settings.General.OpenStatsOnStartup="Open stats dialog on startup"
+ Basic.Settings.General.HideOBSWindowsFromCapture="Hide OBS windows from screen capture"
+-Basic.Settings.General.HideOBSWindowsFromCapture.Tooltip="This setting will hide all non-projector OBS Studio windows from being captured by OBS and affects \nother applications, such as conferencing, screen sharing, remote support, screenshots, and other capture software."
+-Basic.Settings.General.HideOBSWindowsFromCapture.Message="Enabling this option hides all non-projector OBS Studio windows from being captured by OBS and affects other applications, such as conferencing, screen sharing, remote support, screenshots, and other capture software."
++Basic.Settings.General.HideOBSWindowsFromCapture.Tooltip="This setting will hide all non-projector Patmos windows from being captured by OBS and affects \nother applications, such as conferencing, screen sharing, remote support, screenshots, and other capture software."
++Basic.Settings.General.HideOBSWindowsFromCapture.Message="Enabling this option hides all non-projector Patmos windows from being captured by OBS and affects other applications, such as conferencing, screen sharing, remote support, screenshots, and other capture software."
+ Basic.Settings.General.WarnBeforeStartingStream="Show confirmation dialog when starting streams"
+ Basic.Settings.General.WarnBeforeStoppingStream="Show confirmation dialog when stopping streams"
+ Basic.Settings.General.WarnBeforeStoppingRecord="Show confirmation dialog when stopping recording"
+@@ -1503,7 +1503,7 @@ BrowserSource.EnableHardwareAcceleration="Enable Browser Source Hardware Acceler
+ 
+ # about dialog
+ About="About"
+-About.Info="OBS Studio is a free and open source video recording and live streaming software."
++About.Info="Patmos is free and open source software for video recording and live streaming, based on OBS Studio."
+ About.Donate="Make a Contribution"
+ About.GetInvolved="Get Involved"
+ About.Authors="Authors"
+@@ -1535,14 +1535,14 @@ Importer.AutomaticCollectionText="OBS can automatically find importable scene co
+ Importer.SelectFile="Browse..."
+ 
+ # Importers
+-OBSStudio="OBS Studio"
++OBSStudio="Patmos"
+ OBSClassic="OBS Classic"
+ Streamlabs="Streamlabs"
+ XSplitBroadcaster="XSplit Broadcaster"
+ 
+ # OBS restart
+ Restart="Restart"
+-NeedsRestart="OBS Studio needs to be restarted. Do you want to restart now?"
++NeedsRestart="Patmos needs to be restarted. Do you want to restart now?"
+ LoadProfileNeedsRestart="Profile contains settings that require restarting OBS:\n%1\n\nDo you want to restart OBS for these settings to take effect?"
+ 
+ # Context Bar
+@@ -1678,7 +1678,7 @@ MultitrackVideo.IncompatibleSettings.AudioChannelsMultiple="%1 requires multiple
+ # Plugin Manager window
+ Basic.OpenPluginManager="Plugin Manager"
+ PluginManager="Plugin Manager"
+-PluginManager.Restart="OBS Studio must be restarted to apply plugin changes"
++PluginManager.Restart="Patmos must be restarted to apply plugin changes"
+ PluginManager.MissingPlugin="Missing Plugins"
+ PluginManager.SafeMode="All plugins temporarily disabled by Safe Mode"
+ PluginManager.Section.Discover="Browse"
+@@ -1688,7 +1688,7 @@ PluginManager.Section.Manage.Title="Installed"
+ PluginManager.Section.Manage.Description="Manage your currently installed plugins."
+ PluginManager.Section.Manage.NoPlugins="No plugins found."
+ PluginManager.Section.Errors.Title="Errors"
+-PluginManager.Section.Errors.Description="These plugins failed to load. Make sure they are up to date and compatible with this version of OBS Studio."
++PluginManager.Section.Errors.Description="These plugins failed to load. Make sure they are up to date and compatible with this version of Patmos."
+ PluginManager.Section.Missing.Title="Missing"
+ PluginManager.Section.Missing.Description="These plugins were previously installed but can no longer be found."
+ PluginManager.Button.Enable="Enable %1 plugin"
+diff --git a/frontend/data/locale/fr-FR.ini b/frontend/data/locale/fr-FR.ini
+index be32990..d138a8c 100644
+--- a/frontend/data/locale/fr-FR.ini
++++ b/frontend/data/locale/fr-FR.ini
+@@ -116,8 +116,8 @@ PluginsFailedToLoad.Text="Les plugins OBS suivants n'ont pas pu être chargés 
+ AlreadyRunning.Title="OBS est déjà en cours d'exécution"
+ AlreadyRunning.Text="OBS est déjà en cours d'exécution ! À moins que cela soit délibéré, veuillez fermer toute autre instance d'OBS (y compris celles minimisées dans la zone de notifications) avant d'en démarrer une nouvelle."
+ AlreadyRunning.LaunchAnyway="Démarrer tout de même"
+-CrashHandling.Dialog.Title="Détection d'un crash d'OBS Studio"
+-CrashHandling.Labels.Text="OBS Studio ne s'est pas arrêté correctement. \n\nExécuter en mode sans échec (plugins tiers, scripts et WebSockets désactivés)?"
++CrashHandling.Dialog.Title="Détection d'un crash d'Patmos"
++CrashHandling.Labels.Text="Patmos ne s'est pas arrêté correctement. \n\nExécuter en mode sans échec (plugins tiers, scripts et WebSockets désactivés)?"
+ CrashHandling.Labels.PrivacyNotice="Vous pouvez également téléverser automatiquement le rapport de crash le plus récent vers OBSProject.<br /><br />Veuillez lire la <a href='https://obsproject.com/privacy-policy'>Politique de Confidentialité</a> et porter une attention particulière aux sections concernant le téléversement avant de téléverser des fichiers."
+ CrashHandling.Checkbox.SendReport="J'ai lu la politique de confidentialité et j'accepte le téléversement."
+ CrashHandling.Buttons.LaunchSafe="Démarrer en mode sans échec"
+@@ -376,7 +376,7 @@ Output.NoBroadcast.Title="Aucune diffusion configurée"
+ Output.NoBroadcast.Text="Vous devez configurer une diffusion avant de pouvoir commencer la diffusion."
+ Output.BroadcastStartFailed="Échec du démarrage de la diffusion."
+ Output.BroadcastStopFailed="Échec de l'arrêt de la diffusion."
+-LogUploadDialog.Title="Téléversement du fichier journal d'OBS Studio"
++LogUploadDialog.Title="Téléversement du fichier journal d'Patmos"
+ LogUploadDialog.Labels.PrivacyNotice="Veuillez lire la <a href='https://obsproject.com/privacy-policy'>politique de confidentialité</a> et sa section concernant les téléversements de fichiers avant de procéder à tout téléversement."
+ LogUploadDialog.Labels.Progress="Téléversement du fichier journal en cours. Veuillez patienter..."
+ LogUploadDialog.Labels.Description.AppLog="Votre fichier journal a été téléversé. Vous pouvez à présent partager l'URL à des fins de débogage ou d'assistance."
+@@ -426,8 +426,8 @@ MissingFiles.NoMissing.Title="Vérification des fichiers manquants"
+ MissingFiles.NoMissing.Text="Aucun fichier ne semble manquer."
+ MacPermissions.MenuAction="Vérifiez les permissions de l'application..."
+ MacPermissions.Title="Vérifiez les permissions de l'application"
+-MacPermissions.Description="OBS Studio a besoin de votre permission pour pouvoir proposer certaines fonctionnalités. Il est recommandé d'accorder ces permissions, mais elles ne sont pas requises pour utiliser l'application. Vous pourrez toujours les activer ultérieurement."
+-MacPermissions.Description.OpenDialog="Vous pouvez réouvrir ce dialogue via le menu OBS Studio"
++MacPermissions.Description="Patmos a besoin de votre permission pour pouvoir proposer certaines fonctionnalités. Il est recommandé d'accorder ces permissions, mais elles ne sont pas requises pour utiliser l'application. Vous pourrez toujours les activer ultérieurement."
++MacPermissions.Description.OpenDialog="Vous pouvez réouvrir ce dialogue via le menu Patmos"
+ MacPermissions.AccessGranted="Accès autorisé"
+ MacPermissions.RequestAccess="Demandez l'accès"
+ MacPermissions.OpenPreferences="Ouvrir les préférences de %1"
+@@ -442,7 +442,7 @@ MacPermissions.Item.Accessibility="Accessibilité"
+ MacPermissions.Item.Accessibility.Details="Sur une ancienne installation, OBS est possiblement listé dans \"accessibilité\" au lieu de \"surveillance de l'entrée\"."
+ MacPermissions.Continue="Continuer"
+ SourceLeak.Title="Erreur de nettoyage des sources"
+-SourceLeak.Text="Un problème est survenu lors du changement de collection de scènes et certaines sources n'ont pas pu être déchargées. Ce problème est généralement causé par des modules dont les ressources ne sont pas correctement publiées. Veuillez vous assurer que tous les modules que vous utilisez sont à jour.\n\nOBS Studio va maintenant se fermer pour éviter tout risque de corruption des données."
++SourceLeak.Text="Un problème est survenu lors du changement de collection de scènes et certaines sources n'ont pas pu être déchargées. Ce problème est généralement causé par des modules dont les ressources ne sont pas correctement publiées. Veuillez vous assurer que tous les modules que vous utilisez sont à jour.\n\nPatmos va maintenant se fermer pour éviter tout risque de corruption des données."
+ Basic.DesktopDevice1="Audio du bureau"
+ Basic.DesktopDevice2="Audio du bureau 2"
+ Basic.Scene="Scène"
+@@ -732,8 +732,8 @@ Basic.Settings.General.UpdateChannelDefault="(par défaut)"
+ Basic.Settings.General.EnableAutoUpdates="Vérifier automatiquement les mises à jour au démarrage"
+ Basic.Settings.General.OpenStatsOnStartup="Ouvrir la boîte de dialogue des statistiques au démarrage"
+ Basic.Settings.General.HideOBSWindowsFromCapture="Masquer les fenêtre d'OBS sur la capture d'écran"
+-Basic.Settings.General.HideOBSWindowsFromCapture.Tooltip="Ce paramètre masquera toutes les fenêtres d'OBS Studio qui ne sont pas des projecteurs, empêchant ainsi la capture par OBS et affectera\nd'autres applications comme les logiciels de visio-conférence, de partage d'écran, de dépannage à distance, de capture d'écran et autres types de capture."
+-Basic.Settings.General.HideOBSWindowsFromCapture.Message="L'activation de ce paramètre option permet de masquer toutes les fenêtres d'OBS Studio qui ne sont pas sur un projecteur afin qu'elles ne soient pas capturées par OBS et affectent d'autres applications, telles que les visio-conférences, le partage d'écran, l'assistance à distance, les captures d'écran et d'autres logiciels de capture."
++Basic.Settings.General.HideOBSWindowsFromCapture.Tooltip="Ce paramètre masquera toutes les fenêtres d'Patmos qui ne sont pas des projecteurs, empêchant ainsi la capture par OBS et affectera\nd'autres applications comme les logiciels de visio-conférence, de partage d'écran, de dépannage à distance, de capture d'écran et autres types de capture."
++Basic.Settings.General.HideOBSWindowsFromCapture.Message="L'activation de ce paramètre option permet de masquer toutes les fenêtres d'Patmos qui ne sont pas sur un projecteur afin qu'elles ne soient pas capturées par OBS et affectent d'autres applications, telles que les visio-conférences, le partage d'écran, l'assistance à distance, les captures d'écran et d'autres logiciels de capture."
+ Basic.Settings.General.WarnBeforeStartingStream="Afficher une boîte de dialogue de confirmation au démarrage d'un stream"
+ Basic.Settings.General.WarnBeforeStoppingStream="Afficher une boîte de dialogue de confirmation à l'arrêt d'un stream"
+ Basic.Settings.General.WarnBeforeStoppingRecord="Demander confirmation avant d'arrêter un enregistrement"
+@@ -1205,7 +1205,7 @@ ChangeBG="Définir la couleur"
+ CustomColor="Couleur personnalisée"
+ BrowserSource.EnableHardwareAcceleration="Activer l’accélération matérielle de la source « navigateur »"
+ About="À propos"
+-About.Info="OBS Studio est un logiciel libre et open source d'enregistrement vidéo et de diffusion en direct."
++About.Info="Patmos est un logiciel libre et open source d'enregistrement vidéo et de diffusion en direct, basé sur OBS Studio."
+ About.Donate="Faire un don"
+ About.GetInvolved="Contribuer"
+ About.Authors="Auteurs"
+@@ -1229,7 +1229,7 @@ Importer.AutomaticCollectionPrompt="Recherche automatique de collections de scè
+ Importer.AutomaticCollectionText="OBS peut automatiquement trouver des collections de scènes importables à partir de programmes tiers pris en charge. Voulez-vous que OBS trouve automatiquement ces collections pour vous?\n\nVous pourrez modifier cela plus tard dans Paramètres > Général > Importation."
+ Importer.SelectFile="Parcourir..."
+ Restart="Redémarrage"
+-NeedsRestart="OBS Studio doit être redémarré. Voulez-vous le redémarrer maintenant ?"
++NeedsRestart="Patmos doit être redémarré. Voulez-vous le redémarrer maintenant ?"
+ LoadProfileNeedsRestart="Le profil contient des paramètres qui requiert un redémarrage d'OBS:\n%1\n\nVoulez-vous redémarrer OBS pour que ces paramètres prennent effet ?"
+ ContextBar.NoSelectedSource="Aucune source sélectionnée"
+ ContextBar.MediaControls.PlayMedia="Lire le média"
+@@ -1339,7 +1339,7 @@ MultitrackVideo.IncompatibleSettings.AudioChannelsSingle="[Audio → Général 
+ MultitrackVideo.IncompatibleSettings.AudioChannelsMultiple="%1 nécessite plusieurs paramètres différents pour [Audio → Général → Canaux]"
+ Basic.OpenPluginManager="Gestionnaire de plugins"
+ PluginManager="Gestionnaire de plugins"
+-PluginManager.Restart="OBS Studio doit être redémarré pour appliquer les modifications de plugin"
++PluginManager.Restart="Patmos doit être redémarré pour appliquer les modifications de plugin"
+ PluginManager.MissingPlugin="Plugins Manquant"
+ PluginManager.SafeMode="Tous les plugins sont actuellement désactivés par le Mode sans échec"
+ PluginManager.Section.Discover="Parcourir"
+diff --git a/frontend/data/themes/Patmos.ovt b/frontend/data/themes/Patmos.ovt
+new file mode 100644
+index 0000000..d79a270
+--- /dev/null
++++ b/frontend/data/themes/Patmos.ovt
+@@ -0,0 +1,448 @@
++/* Patmos - thème rouge et blanc, basé sur le thème Yami Light d'OBS Studio */
++
++@OBSThemeMeta {
++    name: 'Patmos';
++    id: 'com.patmos.Yami.Patmos';
++    extends: 'com.obsproject.Yami';
++    author: 'Patmos';
++    dark: 'false';
++}
++
++@OBSThemeVars {
++    --grey1: rgb(140,140,140);
++    --grey2: rgb(254,254,254);
++    --grey3: rgb(254,254,254);
++    --grey4: rgb(245,245,245);
++    --grey5: rgb(236,236,236);
++    --grey6: rgb(229,229,229);
++    --grey7: rgb(211,211,211);
++    --grey8: rgb(193,193,193);
++
++    --primary: rgb(227,59,87);
++    --primary_light: rgb(238,110,129);
++    --primary_lighter: rgb(246,160,174);
++    --primary_dark: rgb(192,28,55);
++
++    --bg_window: var(--grey5);
++    --bg_base: var(--grey4);
++    --bg_preview: var(--grey8);
++
++    --text: var(--black1);
++    --text_light: var(--black3);
++    --text_muted: var(--black4);
++
++    --text_disabled: var(--text_muted);
++    --text_inactive: var(--text_light);
++
++    --input_bg_hover: var(--grey3);
++    --input_bg_focus: var(--grey3);
++
++    --input_border_hover: var(--black5);
++
++    --button_bg_disabled: var(--grey7);
++    --button_border_hover: var(--black5);
++
++    --separator_hover: var(--black1);
++
++    --scrollbar_handle: var(--grey3);
++    --scrollbar_hover: var(--grey6);
++    --scrollbar_down: var(--grey8);
++    --scrollbar_border: var(--grey7);
++}
++
++/* --------------------- */
++/* General Styling Hints */
++
++.button-primary:hover {
++    border-color: var(--button_border_hover);
++}
++
++/* Mute Button */
++
++.btn-mute {
++    qproperty-icon: url(theme:Light/settings/audio.svg);
++}
++
++.btn-mute.checked {
++    qproperty-icon: url(theme:Light/mute.svg);
++}
++
++/* Monitor Button */
++
++.btn-monitor {
++    qproperty-icon: url(theme:Light/headphones-off.svg);
++}
++
++.btn-monitor.checked {
++    color: var(--text_light);
++    qproperty-icon: url(theme:Light/headphones.svg);
++}
++
++VolumeControl.volume-inactive,
++VolumeControl.volume-inactive VolumeMeter {
++    background: var(--grey8);
++}
++
++VolumeMeter {
++    qproperty-backgroundNominalColor: var(--green4);
++    qproperty-backgroundWarningColor: var(--yellow4);
++    qproperty-backgroundErrorColor: var(--red4);
++    qproperty-foregroundNominalColor: var(--green1);
++    qproperty-foregroundWarningColor: var(--yellow1);
++    qproperty-foregroundErrorColor: var(--red1);
++    qproperty-magnitudeColor: rgb(0,0,0);
++    qproperty-majorTickColor: var(--black1);
++    qproperty-minorTickColor: var(--black5);
++
++    qproperty-backgroundNominalColorDisabled: var(--black3);
++    qproperty-backgroundWarningColorDisabled: var(--black4);
++    qproperty-backgroundErrorColorDisabled: var(--black3);
++    qproperty-foregroundNominalColorDisabled: var(--black5);
++    qproperty-foregroundWarningColorDisabled: var(--white5);
++    qproperty-foregroundErrorColorDisabled: var(--white4);
++}
++
++.toggle-hidden:checked {
++    background: var(--purple1);
++    border-color: var(--purple5);
++    color: var(--purple6);
++}
++
++VolumeControl .mixer-category {
++    background: var(--red1);
++    color: var(--text_light);
++}
++
++VolumeControl.volume-pinned .mixer-category {
++    background: var(--red2);    
++}
++
++VolumeControl.volume-hidden .mixer-category {
++    background: var(--purple1);
++    color: var(--purple6);
++}
++
++VolumeControl.volume-unassigned .mixer-category {
++    background: var(--yellow1);
++    color: var(--yellow6);
++}
++
++VolumeControl.volume-inactive .mixer-category {
++    background: var(--grey8);
++    color: var(--text_muted);
++}
++
++VolumeControl.volume-preview .mixer-category {
++    background: var(--green3);
++    color: var(--text_light);
++}
++
++QMenu::right-arrow {
++    image: url(theme:Light/expand.svg);
++}
++
++QDockWidget {
++    titlebar-close-icon: url(theme:Light/close.svg);
++    titlebar-normal-icon: url(theme:Light/popout.svg);
++}
++
++QPushButton#sourcePropertiesButton {
++    qproperty-icon: url(theme:Light/settings/general.svg);
++}
++
++QPushButton#sourceFiltersButton {
++    qproperty-icon: url(theme:Light/filter.svg);
++}
++
++.icon-plus {
++    qproperty-icon: url(theme:Light/plus.svg);
++}
++
++.icon-minus {
++    qproperty-icon: url(theme:Light/minus.svg);
++}
++
++.icon-trash {
++    qproperty-icon: url(theme:Light/trash.svg);
++}
++
++.icon-clear {
++    qproperty-icon: url(theme:Light/entry-clear.svg);
++}
++
++.icon-gear {
++    qproperty-icon: url(theme:Light/settings/general.svg);
++}
++
++.icon-dots-vert {
++    qproperty-icon: url(theme:Light/dots-vert.svg);
++}
++
++.icon-refresh {
++    qproperty-icon: url(theme:Light/refresh.svg);
++}
++
++.icon-cogs {
++    qproperty-icon: url(theme:Light/cogs.svg);
++}
++
++.icon-touch {
++    qproperty-icon: url(theme:Light/interact.svg);
++}
++
++.icon-up {
++    qproperty-icon: url(theme:Light/up.svg);
++}
++
++.icon-down {
++    qproperty-icon: url(theme:Light/down.svg);
++}
++
++.icon-filter {
++    qproperty-icon: url(theme:Light/filter.svg);
++}
++
++.icon-revert {
++    qproperty-icon: url(theme:Light/revert.svg);
++}
++
++.icon-close {
++    qproperty-icon: url(theme:Light/close.svg);
++}
++
++.icon-layout-vertical {
++    qproperty-icon: url(theme:Light/layout-vertical.svg);
++}
++
++.icon-layout-horizontal {
++    qproperty-icon: url(theme:Light/layout-horizontal.svg);
++}
++
++QToolBarExtension {
++    qproperty-icon: url(theme:Light/dots-vert.svg);
++}
++
++QComboBox::down-arrow,
++QDateTimeEdit::down-arrow {
++    image: url(theme:Light/collapse.svg);
++}
++
++QComboBox::down-arrow:editable,
++QDateTimeEdit::down-arrow:editable {
++    image: url(theme:Light/collapse.svg);
++}
++
++QSpinBox::up-arrow, QDoubleSpinBox::up-arrow {
++    image: url(theme:Light/up.svg);
++}
++
++QSpinBox::down-arrow, QDoubleSpinBox::down-arrow {
++    image: url(theme:Light/down.svg);
++}
++
++QPushButton::menu-indicator {
++    image: url(theme:Light/down.svg);
++}
++
++OBSBasicSettings {
++    qproperty-generalIcon: url(theme:Light/settings/general.svg);
++    qproperty-appearanceIcon: url(theme:Light/settings/appearance.svg);
++    qproperty-streamIcon: url(theme:Light/settings/stream.svg);
++    qproperty-outputIcon: url(theme:Light/settings/output.svg);
++    qproperty-audioIcon: url(theme:Light/settings/audio.svg);
++    qproperty-videoIcon: url(theme:Light/settings/video.svg);
++    qproperty-hotkeysIcon: url(theme:Light/settings/hotkeys.svg);
++    qproperty-accessibilityIcon: url(theme:Light/settings/accessibility.svg);
++    qproperty-advancedIcon: url(theme:Light/settings/advanced.svg);
++}
++
++QCheckBox::indicator:unchecked,
++QGroupBox::indicator:unchecked,
++QTableView::indicator:unchecked {
++    image: url(theme:Light/checkbox_unchecked.svg);
++}
++
++QCheckBox::indicator:unchecked:hover,
++QGroupBox::indicator:unchecked:hover,
++QTableView::indicator:unchecked:hover {
++    image: url(theme:Light/checkbox_unchecked_focus.svg);
++}
++
++QCheckBox::indicator:checked,
++QGroupBox::indicator:checked,
++QTableView::indicator:checked {
++    image: url(theme:Light/checkbox_checked.svg);
++}
++
++QCheckBox::indicator:checked:hover,
++QGroupBox::indicator:checked:hover,
++QTableView::indicator:checked:hover {
++    image: url(theme:Light/checkbox_checked_focus.svg);
++}
++
++QCheckBox::indicator:checked:disabled,
++QGroupBox::indicator:checked:disabled,
++QTableView::indicator:checked:disabled {
++    image: url(theme:Light/checkbox_checked_disabled.svg);
++}
++
++QCheckBox::indicator:unchecked:disabled,
++QGroupBox::indicator:unchecked:disabled,
++QTableView::indicator:unchecked:disabled {
++    image: url(theme:Light/checkbox_unchecked_disabled.svg);
++}
++
++.indicator-lock::indicator:checked,
++.indicator-lock::indicator:checked:hover {
++    image: url(theme:Light/locked.svg);
++}
++
++.indicator-visibility::indicator:checked,
++.indicator-visibility::indicator:checked:hover {
++    image: url(theme:Light/visible.svg);
++}
++
++.indicator-expand::indicator:checked,
++.indicator-expand::indicator:checked:hover {
++    image: url(theme:Light/expand.svg);
++}
++
++.indicator-expand::indicator:unchecked,
++.indicator-expand::indicator:unchecked:hover {
++    image: url(theme:Light/collapse.svg);
++}
++
++/* Source Icons */
++OBSBasic {
++    qproperty-imageIcon: url(theme:Light/sources/image.svg);
++    qproperty-colorIcon: url(theme:Light/sources/brush.svg);
++    qproperty-slideshowIcon: url(theme:Light/sources/slideshow.svg);
++    qproperty-audioInputIcon: url(theme:Light/sources/microphone.svg);
++    qproperty-audioOutputIcon: url(theme:Light/settings/audio.svg);
++    qproperty-desktopCapIcon: url(theme:Light/settings/video.svg);
++    qproperty-windowCapIcon: url(theme:Light/sources/window.svg);
++    qproperty-gameCapIcon: url(theme:Light/sources/gamepad.svg);
++    qproperty-cameraIcon: url(theme:Light/sources/camera.svg);
++    qproperty-textIcon: url(theme:Light/sources/text.svg);
++    qproperty-mediaIcon: url(theme:Light/sources/media.svg);
++    qproperty-browserIcon: url(theme:Light/sources/globe.svg);
++    qproperty-groupIcon: url(theme:Light/sources/group.svg);
++    qproperty-sceneIcon: url(theme:Light/sources/scene.svg);
++    qproperty-defaultIcon: url(theme:Light/sources/default.svg);
++    qproperty-audioProcessOutputIcon: url(theme:Light/sources/windowaudio.svg);
++}
++
++.icon-save {
++    qproperty-icon: url(theme:Light/save.svg);
++}
++
++/* Media icons */
++.icon-media-play {
++    qproperty-icon: url(theme:Light/media/media_play.svg);
++}
++
++.icon-media-pause {
++    qproperty-icon: url(theme:Light/media/media_pause.svg);
++}
++
++.icon-media-restart {
++    qproperty-icon: url(theme:Light/media/media_restart.svg);
++}
++
++.icon-media-stop {
++    qproperty-icon: url(theme:Light/media/media_stop.svg);
++}
++
++.icon-media-next {
++    qproperty-icon: url(theme:Light/media/media_next.svg);
++}
++
++.icon-media-prev {
++    qproperty-icon: url(theme:Light/media/media_previous.svg);
++}
++
++/* YouTube Integration */
++OBSYoutubeActions {
++    qproperty-thumbPlaceholder: url(theme:Light/sources/image.svg);
++}
++
++QDateTimeEdit::down-arrow {
++    image: url(theme:Light/down.svg);
++}
++
++#qt_calendar_monthbutton::menu-indicator {
++    image: url(theme:Light/down.svg);
++}
++
++QCalendarWidget #qt_calendar_prevmonth {
++    qproperty-icon: url(theme:Light/left.svg);
++}
++
++QCalendarWidget #qt_calendar_nextmonth {
++    qproperty-icon: url(theme:Light/right.svg);
++}
++
++/* Idian Widgets */
++idian--ToggleSwitch {
++    qproperty-background: var(--grey8);
++    qproperty-background_hover: var(--grey7);
++    qproperty-background_checked: var(--primary);
++    qproperty-background_checked_hover: var(--primary_light);
++}
++
++idian--Row QComboBox::down-arrow {
++    image: url(theme:Light/collapse.svg);
++}
++
++idian--CheckBox.keyFocus::indicator,
++idian--Row.hover > idian--CheckBox.row-buddy::indicator {
++    image: url(theme:Light/checkbox_unchecked_focus.svg);
++}
++
++idian--CheckBox.keyFocus.checked::indicator,
++idian--Row.hover > idian--CheckBox.row-buddy.checked::indicator {
++    image: url(theme:Light/checkbox_checked_focus.svg);
++}
++
++idian--ExpandButton::indicator {
++    image: url(theme:Light/down.svg);
++}
++
++idian--ExpandButton::indicator:checked {
++    image: url(theme:Light/up.svg);
++}
++
++/* Add Source Dialog */
++SourceSelectButton QPushButton,
++SourceSelectButton #thumbnail {
++    border-color: var(--grey3);
++}
++
++SourceSelectButton QPushButton:checked {
++    background: var(--primary);
++    border-color: var(--primary_light);
++}
++
++SourceSelectButton QPushButton:checked:focus,
++SourceSelectButton QPushButton:focus {
++    border-color: var(--black3);
++}
++
++
++/* ---------------- */
++/* Accents Patmos   */
++
++.button-primary,
++QPushButton[class~="button-primary"] {
++    color: #FFFFFF;
++}
++
++QMenuBar::item:selected,
++QMenu::item:selected {
++    background-color: var(--primary);
++    color: #FFFFFF;
++}
++
++QTabBar::tab:selected {
++    border-bottom: 2px solid var(--primary_dark);
++}
+diff --git a/frontend/widgets/OBSBasic.cpp b/frontend/widgets/OBSBasic.cpp
+index 049a8b8..167391d 100644
+--- a/frontend/widgets/OBSBasic.cpp
++++ b/frontend/widgets/OBSBasic.cpp
+@@ -337,7 +337,7 @@ OBSBasic::OBSBasic(QWidget *parent) : OBSMainWindow(parent), undo_s(ui), ui(new
+ 	installEventFilter(shortcutFilter);
+ 
+ 	stringstream name;
+-	name << "OBS " << App()->GetVersionString();
++	name << "Patmos (base OBS Studio) " << App()->GetVersionString();
+ 	blog(LOG_INFO, "%s", name.str().c_str());
+ 	blog(LOG_INFO, "---------------------------------");
+ 
+@@ -1982,7 +1982,7 @@ void OBSBasic::UpdateTitleBar()
+ 	const char *profile = config_get_string(App()->GetUserConfig(), "Basic", "Profile");
+ 	const char *sceneCollection = config_get_string(App()->GetUserConfig(), "Basic", "SceneCollection");
+ 
+-	name << "OBS ";
++	name << "Patmos ";
+ 	if (previewProgramMode) {
+ 		name << "Studio ";
+ 	}
+-- 
+2.43.0
+
